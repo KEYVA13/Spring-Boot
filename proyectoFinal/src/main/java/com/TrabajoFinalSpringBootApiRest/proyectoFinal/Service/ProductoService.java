@@ -44,8 +44,7 @@ public class ProductoService implements IProductoService{
         this.saveProducto(p);
     }
 
-    @Override
-    public List<Producto> listaFiltradoXCantidad(int cant) {
-        return productoReposity.findBycantidadGreaterThan(cant);
+    public List<Producto> getListaStockMenor(int nro){
+        return productoReposity.findProductosWithCantidadMenorA(nro);
     }
 }

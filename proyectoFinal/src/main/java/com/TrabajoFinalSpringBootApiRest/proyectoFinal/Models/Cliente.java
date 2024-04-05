@@ -8,16 +8,16 @@ import jakarta.persistence.Id;
 @Entity
 public class Cliente {
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_cliente;
     private String nombre;
     private String apellido;
-    private  int dni;
+    private  String dni;
 
     public Cliente() {
     }
 
-    public Cliente(int id_cliente, String nombre, String apellido, int dni) {
+    public Cliente(int id_cliente, String nombre, String apellido, String dni) {
         this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -48,11 +48,11 @@ public class Cliente {
         this.apellido = apellido;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 }

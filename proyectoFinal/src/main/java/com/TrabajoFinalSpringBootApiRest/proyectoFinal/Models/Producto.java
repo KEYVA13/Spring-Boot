@@ -1,5 +1,7 @@
 package com.TrabajoFinalSpringBootApiRest.proyectoFinal.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.lang.reflect.Array;
@@ -10,7 +12,7 @@ import java.util.List;
 public class Producto {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo_producto;
     private String nombre;
     private String marca;
@@ -20,12 +22,12 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int codigo_producto, String nombre, String marca, Double costo, Double cantidad_disponible) {
+    public Producto(int codigo_producto, String nombre, String marca, Double costo, Double cantidad) {
         this.codigo_producto = codigo_producto;
         this.nombre = nombre;
         this.marca = marca;
         this.costo = costo;
-        this.cantidad = cantidad_disponible;
+        this.cantidad = cantidad;
     }
 
     public int getCodigo_producto() {
@@ -64,7 +66,7 @@ public class Producto {
         return cantidad;
     }
 
-    public void setCantidad(Double cantidad_disponible) {
-        this.cantidad = cantidad_disponible;
+    public void setCantidad(Double cantidad) {
+        this.cantidad = cantidad;
     }
 }

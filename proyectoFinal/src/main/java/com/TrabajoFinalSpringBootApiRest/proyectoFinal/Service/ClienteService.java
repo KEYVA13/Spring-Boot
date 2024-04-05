@@ -34,7 +34,7 @@ public class ClienteService implements IClienteService{
     }
 
     @Override
-    public void updateCliente(int id, String nombre, String apellido, int dni) {
+    public void updateCliente(int id, String nombre, String apellido, String dni) {
         Cliente usuario = this.getCliente(id);
 
         usuario.setNombre(nombre);

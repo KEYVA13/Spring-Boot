@@ -16,5 +16,5 @@ public interface IProductoService {
 
     public void updateProducto(int id,String nombre, String marca, Double costo,Double cantDisponible);
 
-    public List<Producto> listaFiltradoXCantidad(int cant);
+    public List<Producto> getListaStockMenor(int nro);
 }

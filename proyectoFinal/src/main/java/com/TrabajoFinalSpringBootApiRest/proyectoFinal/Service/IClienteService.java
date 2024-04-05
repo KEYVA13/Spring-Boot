@@ -14,5 +14,5 @@ public interface IClienteService {
 
     public void deleteCliente(int id);
 
-    public void updateCliente(int id,String nombre, String apellido, int dni);
+    public void updateCliente(int id,String nombre, String apellido, String dni);
 }

@@ -1,6 +1,9 @@
 package com.TrabajoFinalSpringBootApiRest.proyectoFinal.Service;
 
+import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Dto.DatosCliente;
+import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Dto.VentaInfo;
 import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Models.Cliente;
+import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Models.Producto;
 import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Models.Venta;
 import com.TrabajoFinalSpringBootApiRest.proyectoFinal.Reposity.IVentaReposity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import java.util.List;
 public class VentaService implements IVentaService{
     @Autowired
     IVentaReposity ventaReposity;
+    @Autowired
+    IProductoService productoService;
 
 
     @Override
@@ -27,6 +32,9 @@ public class VentaService implements IVentaService{
 
     @Override
     public void saveVenta(Venta v) {
+        Producto p = productoService.getProducto(v.getProducto().getCodigo_producto());
+        Double total =  p.getCosto() * p.getCantidad();
+        v.setTotal(total);
         ventaReposity.save(v);
     }
 
@@ -43,16 +51,40 @@ public class VentaService implements IVentaService{
     venta.setTotal(total);
     venta.setUnCliente(c);
 
+    this.saveVenta(venta);
     }
 
-    public List<Venta> getLista(int nroVenta){
-        return ventaReposity.findVentaWithListaByidVenta(nroVenta);
+    public VentaInfo getVentasInfo(Date fecha){
+
+        List<Venta> listaDatos = ventaReposity.obtenerDatosFecha(fecha);
+        VentaInfo info = new VentaInfo();
+
+        Double contadorVentas = 0.0;
+        Double montoTotal = 0.0;
+
+        for (Venta v : listaDatos){
+            contadorVentas++;
+            montoTotal += v.getTotal();
+        }
+
+        info.setCantidadTotalVentas(contadorVentas);
+        info.setMonto(montoTotal);
+
+        return info;
     }
 
-    public int getMontoTotalDia(Date fecha){
-        return ventaReposity.getMontoTotalDia(fecha);
+    public DatosCliente getMayorVenta(){
+
+        Venta v = ventaReposity.getMayorVenta();
+        DatosCliente info = new DatosCliente();
+
+        info.setCodigo_venta(v.getIdVenta());
+        info.setTotal(v.getTotal());
+        info.setApellidoCliente(v.getUnCliente().getApellido());
+        info.setNombreCliente(v.getUnCliente().getNombre());
+        info.setCantidadProductos(v.getProducto().getCantidad());
+
+        return info;
     }
-    public int getCantidadVentasDia(Date fecha){
-        return ventaReposity.getCantidadVentasDia(fecha);
-    }
+
 }

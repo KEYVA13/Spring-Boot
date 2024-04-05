@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface IProductoReposity extends JpaRepository<Producto,Integer> {
-    public List<Producto> findBycantidadGreaterThan(int cant);
+    @Query("SELECT p FROM Producto p WHERE p.cantidad < ?1")
+    List<Producto> findProductosWithCantidadMenorA(int cantidad);
 }

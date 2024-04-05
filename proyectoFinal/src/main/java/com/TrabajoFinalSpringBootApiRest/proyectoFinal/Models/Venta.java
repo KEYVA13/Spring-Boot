@@ -1,6 +1,7 @@
 package com.TrabajoFinalSpringBootApiRest.proyectoFinal.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -11,37 +12,37 @@ import java.util.List;
 public class Venta {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVenta;
     private Date fecha;
     private Double total;
 
-    @OneToMany
-    private List<Lista> lista;
+    @OneToOne
+    @JoinColumn(name = "codigo_producto", referencedColumnName = "codigo_producto")
+    private Producto producto;
+
 
     @OneToOne
     @JoinColumn(name = "id_clientecompra", referencedColumnName = "id_cliente")
-
     private Cliente unCliente;
-
 
     public Venta() {
     }
 
-    public Venta(int codigo_venta, Date fecha, Double total, Cliente unCliente) {
-        this.idVenta = codigo_venta;
+    public Venta(int idVenta, Date fecha, Double total, Producto producto, Cliente unCliente) {
+        this.idVenta = idVenta;
         this.fecha = fecha;
         this.total = total;
-        this.lista = new ArrayList<Lista>();
+        this.producto = producto;
         this.unCliente = unCliente;
     }
 
-    public int getCodigo_venta() {
+    public int getIdVenta() {
         return idVenta;
     }
 
-    public void setCodigo_venta(int codigo_venta) {
-        this.idVenta = codigo_venta;
+    public void setIdVenta(int idVenta) {
+        this.idVenta = idVenta;
     }
 
     public Date getFecha() {
@@ -60,16 +61,12 @@ public class Venta {
         this.total = total;
     }
 
-    public List<Lista> getListaProductos() {
-        List<Lista> copia = new ArrayList<Lista>();
-        for (Lista p : this.lista){
-            copia.add(p);
-        }
-        return copia;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setListaProductos(List<Producto> listaProductos) {
-        this.lista = lista;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     public Cliente getUnCliente() {
